@@ -1,0 +1,21 @@
+Use uo;
+use os;
+use cfgfile;
+use file;
+
+include ":emailer:emailer"; //This line adds the email handler.
+
+program textcmd_testsmtp(who)
+	
+	var toAddress := RequestInput(who, who.backpack, "Enter email address:" ); //This line sends a text prompt to the person running the commend requesting input of an email address.
+	
+	/*SendEmail( ToAddress, Subject, Body, Modifiers) - Modifiers are not required as you can see in this test email being sent below.
+	It will send an email to toAddress with "Test Email from UO Server" as the subject and "Test was successful" as the body of the email. */
+	var outbound := SendEmail( toAddress, "Test Email from UO Server", "Test was successful");
+	  	
+	// If sending the email fails the below block will report the error message back to the person who ran the command.
+	if(outbound == error)
+		SendsysMessage( who, outbound.errortext );
+	endif
+
+endprogram
